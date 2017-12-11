@@ -1,0 +1,133 @@
+{% extends "extempore/base.html" %}
+
+{# {% load ontotags %} #}
+
+{% block navbar %}
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="{% url extempore_home %}">Extempore Functions (0.7.0)</a>	  
+       <div class="pull-right">
+        <form class="navbar-form" role="search" method="get" id="search_form" action="{% url extempore_home %}">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Search" name="q" id="srch-term" value="{{q}}">
+            <div class="input-group-btn">
+                <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+            </div>
+        </div>
+        </form>
+        </div>
+
+
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+
+{% endblock navbar %}
+
+
+
+
+
+{% block bodycontent %}
+
+
+<div class="row">
+
+	{% if namespaces %}
+	<div class="col-md-2 well">
+		<small class="text-muted text-uppercase">Groups:</small>
+		<br />
+		{% for x  in namespaces  %}
+			<br />
+			<a href="#{{x}}" class="btn btn-sm btn-default" style="margin-bottom: 2px;">{{x}}</a>
+		{% endfor %}
+
+
+	</div>
+
+	<div class="col-md-9 col-md-offset-1" >
+
+	{% else %}
+
+	<div class="col-md-11 col-md-offset-1" >
+
+	{% endif %}
+
+
+
+		{% if q %}
+
+			<h3>{{items|length}} matching functions
+				<a class="btn btn-default btn-xs" href="{% url extempore_home %}">reset
+					</a>
+			</h3>
+			<hr>
+		{% else %}
+
+			<h3>{{items|length}} functions in total</h3>
+			<hr>
+
+		{% endif %}
+
+
+
+		{% for f in items  %}
+
+
+			{% ifchanged f.get_namespace %}
+
+				<a name="{{f.get_namespace}}">&nbsp;</a>
+				<br /><br />
+				{% if not forloop.first %}<br />{% endif %}
+				<h4><small class="text-muted">GROUP:&nbsp;</small> {{f.get_namespace}}</h4>
+
+			{% endifchanged %}
+
+			<li>
+				<a class="lead" href="{% url extempore_fun_detail f.id %}">{{f.name}}</a>
+				&nbsp;&nbsp;
+
+				<small class="
+					{% ifequal f.funtype "scheme"  %}text-success{% endifequal %}
+					{% ifequal f.funtype "macro"  %}text-info{% endifequal %}
+					{% ifequal f.funtype "xtlang"  %}text-warning{% endifequal %}
+					">
+					{{f.funtype}}</small>
+
+				{# {{f.get_namespace}} #}
+			</li>
+
+		{% endfor %}
+
+	</div>
+
+
+
+</div>
+
+
+
+
+<div class="row">
+	&nbsp;
+	<br />
+	&nbsp;
+</div>
+
+
+
+{% endblock bodycontent %}
