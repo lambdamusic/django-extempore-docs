@@ -9,4 +9,10 @@ Demo: http://hacks.michelepasin.org/extempore/
 
 #### Status
 
-Just an idea, but feel free to get in touch if you're thinking of improving/extending it.  
+Just an idea, but feel free to get in touch if you're willing to improve/extend it.  
+
+
+#### Links
+
+* http://extempore.moso.com.au/
+* https://github.com/digego/extempore
